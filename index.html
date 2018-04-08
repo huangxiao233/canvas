@@ -12,144 +12,216 @@
 <body>
   <canvas id="xxx" width=300 height=300></canvas>
   <div id=actions class="actions">
-    <button id=eraser>橡皮擦</button>
-    <button id=brush>画笔</button>
+    <!-- <button id=eraser>橡皮擦</button>
+    <button id=brush>画笔</button> -->
+    <svg class=" icon" id = brush aria-hidden="true">
+      <use xlink:href="#icon-Pen"></use>
+    </svg>
+    <svg class="icon" id = eraser aria-hidden="true">
+      <use xlink:href="#icon-eraser"></use>
+    </svg>
+    <svg class="icon" id = clearall aria-hidden="true">
+      <use xlink:href="#icon-shanchu"></use>
+    </svg>
+    <svg class="icon" id = saveall aria-hidden="true">
+      <use xlink:href="#icon-save"></use>
+    </svg>
+
+    
   </div>
+  <ol class = "color">
+    <li id="red" class = "red "></li>
+    <li id="green" class="green"></li>
+    <li id="blue" class = "blue"></li>
+  </ol>
+  <ol class = 'width'>
+    <li id="thin" class="thin"></li>
+    <li id="thick" class="thick"></li>
+  </ol>
+
+  <script src="//at.alicdn.com/t/font_619699_39ctra79wuufecdi.js"></script>
   <script>
-var yyy = document.getElementById('xxx');
-var context = yyy.getContext('2d');
+    var yyy = document.getElementById('xxx');
+    var context = yyy.getContext('2d');
+    var lineWidth =  5
 
-autoSetCanvasSize(yyy)
+    autoSetCanvasSize(yyy)
 
-listenToUser(yyy)
-
-
-var eraserEnabled = false
-eraser.onclick = function() {
-  eraserEnabled =true
-  actions.className = 'actions x'
-  
-}
-brush.onclick = function(){
-  eraserEnabled = false
-  actions.className = 'actions'
-}
+    listenToUser(yyy)
 
 
-/******/
+    var eraserEnabled = false
+    eraser.onclick = function () {
+      eraserEnabled = true
+      // 为点击加上动画效果
+      eraser.classList.add('active')
+      brush.classList.remove('active')
+      // actions.className = 'actions x'
 
-function autoSetCanvasSize(canvas) {
-  setCanvasSize()
-
-  window.onresize = function() {
-    setCanvasSize()
-  }
-
-  function setCanvasSize() {
-    var pageWidth = document.documentElement.clientWidth
-    var pageHeight = document.documentElement.clientHeight
-
-    canvas.width = pageWidth
-    canvas.height = pageHeight
-  }
-}
-
-function drawCircle(x, y, radius) {
-  context.beginPath()
-  context.fillStyle = 'black'
-  context.arc(x, y, radius, 0, Math.PI * 2);
-  context.fill()
-}
-
-function drawLine(x1, y1, x2, y2) {
-  context.beginPath();
-  context.strokeStyle = 'black'
-  context.moveTo(x1, y1) // 起点
-  context.lineWidth = 5
-  context.lineTo(x2, y2) // 终点
-  context.stroke()
-  context.closePath()
-}
-
-function listenToUser(canvas) {
-  var using = false
-  var lastPoint = {
-    x: undefined,
-    y: undefined
-  }
-  if (document.body.ontouchstart !== undefined) {
-    canvas.ontouchstart = function (aaa) {
-      var x = aaa.touches[0].clientX
-      var y = aaa.touches[0].clientY
-      using = true
-      if (eraserEnabled) {
-        context.clearRect(x - 5, y - 5, 10, 10)
-      } else {
-        lastPoint = {
-          "x": x,
-          "y": y
-        }
-      }
     }
-    canvas.ontouchmove = function (aaa) {
-      console.log("你划了我")
-      var x = aaa.touches[0].clientX
-      var y = aaa.touches[0].clientY
-
-      if (!using) { return }
-
-      if (eraserEnabled) {
-        context.clearRect(x - 5, y - 5, 10, 10)
-      } else {
-        var newPoint = {
-          "x": x,
-          "y": y
-        }
-        drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
-        lastPoint = newPoint
-      }
+    brush.onclick = function () {
+      eraserEnabled = false
+      // 给画笔加上新的类名
+      brush.classList.add('active') 
+      eraser.classList.remove('active')
+      // actions.className = 'actions'
     }
-    canvas.ontouchend = function (aaa) {
-      console.log("你终止了我")
-      using = false
-  }
- }else{
-    canvas.onmousedown = function (aaa) {
-      var x = aaa.clientX
-      var y = aaa.clientY
-      using = true
-      if (eraserEnabled) {
-        context.clearRect(x - 5, y - 5, 10, 10)
-      } else {
-        lastPoint = {
-          "x": x,
-          "y": y
-        }
+    red.onclick = function(){
+      // context.fillStyle = 'red'
+      context.strokeStyle = 'red'
+      red.classList.add('active')
+      green.classList.remove('active')
+      blue.classList.remove('active')
+    }
+    green.onclick = function(){
+      // context.fillStyle = 'green'
+      context.strokeStyle = 'green'
+      green.classList.add('active')
+      red.classList.remove('active')
+      blue.classList.remove('active')
+    }
+    blue.onclick = function(){
+      // context.fillStyle = 'blue'
+      context.strokeStyle = 'blue'
+      blue.classList.add('active')
+      red.classList.remove('active')
+      green.classList.remove('active')
+    }
+    thick.onclick = function(){
+      lineWidth = 5
+    }
+    thin.onclick = function(){
+      lineWidth = 2
+    }
+    clearall.onclick = function(){
+    context.clearRect(0,0,yyy.width,yyy.height);  
+    }
+    saveall.onclick = function(){
+     
+      var url = yyy.toDataURL("image/png");
+      var a = document.createElement('a')
+      document.body.appendChild(a)
+      a.href = url
+      a.download = "my pic"
+      a.target = '_blank'
+      a.click()
+    }
+     
+    /******/
+
+    function autoSetCanvasSize(canvas) {
+      setCanvasSize()
+
+      window.onresize = function () {
+        setCanvasSize()
+      }
+
+      function setCanvasSize() {
+        var pageWidth = document.documentElement.clientWidth
+        var pageHeight = document.documentElement.clientHeight
+
+        canvas.width = pageWidth
+        canvas.height = pageHeight
       }
     }
 
-    canvas.onmousemove = function (aaa) {
-      var x = aaa.clientX
-      var y = aaa.clientY
+    function drawCircle(x, y, radius) {
+      context.beginPath()
+      // context.fillStyle = 'black'
+      context.arc(x, y, radius, 0, Math.PI * 2);
+      context.fill()
+    }
 
-      if (!using) { return }
+    function drawLine(x1, y1, x2, y2) {
+      context.beginPath();
+      // 写死了就改不了颜色了
+      // context.strokeStyle = 'black'
+      context.moveTo(x1, y1) // 起点
+      context.lineWidth = lineWidth
+      context.lineTo(x2, y2) // 终点
+      context.stroke()
+      context.closePath()
+    }
 
-      if (eraserEnabled) {
-        context.clearRect(x - 5, y - 5, 10, 10)
-      } else {
-        var newPoint = {
-          "x": x,
-          "y": y
+    function listenToUser(canvas) {
+      var using = false
+      var lastPoint = {
+        x: undefined,
+        y: undefined
+      }
+      if (document.body.ontouchstart !== undefined) {
+        canvas.ontouchstart = function (aaa) {
+          var x = aaa.touches[0].clientX
+          var y = aaa.touches[0].clientY
+          using = true
+          if (eraserEnabled) {
+            context.clearRect(x - 5, y - 5, 10, 10)
+          } else {
+            lastPoint = {
+              "x": x,
+              "y": y
+            }
+          }
         }
-        drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
-        lastPoint = newPoint
+        canvas.ontouchmove = function (aaa) {
+          console.log("你划了我")
+          var x = aaa.touches[0].clientX
+          var y = aaa.touches[0].clientY
+
+          if (!using) { return }
+
+          if (eraserEnabled) {
+            context.clearRect(x - 5, y - 5, 10, 10)
+          } else {
+            var newPoint = {
+              "x": x,
+              "y": y
+            }
+            drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
+            lastPoint = newPoint
+          }
+        }
+        canvas.ontouchend = function (aaa) {
+          console.log("你终止了我")
+          using = false
+        }
+      } else {
+        canvas.onmousedown = function (aaa) {
+          var x = aaa.clientX
+          var y = aaa.clientY
+          using = true
+          if (eraserEnabled) {
+            context.clearRect(x - 5, y - 5, 10, 10)
+          } else {
+            lastPoint = {
+              "x": x,
+              "y": y
+            }
+          }
+        }
+
+        canvas.onmousemove = function (aaa) {
+          var x = aaa.clientX
+          var y = aaa.clientY
+
+          if (!using) { return }
+
+          if (eraserEnabled) {
+            context.clearRect(x - 5, y - 5, 10, 10)
+          } else {
+            var newPoint = {
+              "x": x,
+              "y": y
+            }
+            drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
+            lastPoint = newPoint
+          }
+        }
+        canvas.onmouseup = function (aaa) {
+          using = false
+        }
       }
     }
-    canvas.onmouseup = function (aaa) {
-      using = false
-    }
- }
-}
   </script>
 </body>
 </html>

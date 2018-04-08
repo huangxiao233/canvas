@@ -1,5 +1,5 @@
 #xxx{
-    background: green;
+    background: white;
     display: block;
   }
   
@@ -7,21 +7,89 @@
     margin: 0px;
   }
   
-  html{
+ /* 逗号别忘了 */
+  ol,li{
+    list-style: none;
   }
   
   .actions{
     position: fixed;
-    bottom: 0;
+    top: 0;
     left: 0;
+    padding:20px;
   }
-  .actions > #brush{
+  /* .actions > #brush{
     display: none;
-  }
+  } */
   
-  .actions.x > #brush{
+  /* .actions.x > #brush{
     display: inline-block;
   }
   .actions.x > #eraser{
     display: none
-  }
+  } */
+  .icon {
+    width: 1em; height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+ }
+ .actions svg{
+   width:1.5em;
+   height:1.5em;
+   transition:all 0.3s;
+   margin: 0 10px;
+ }
+ .actions svg.active{
+   fill:red;
+   /* 点击的时候会变大 */
+   transform:scale(1.2)
+ }
+.color{
+  position:fixed;
+  top:50px;
+  left:0px;
+  padding: 25px;
+
+}
+.color>li{
+  width:20px;
+  height:20px;
+  border-radius: 50%;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
+  margin:10px 0;
+  transition:all 0.3s;
+}
+.color >li.red{
+  background: red;
+}
+.color >li.blue{
+  background: blue;
+}
+.color >li.green{
+  background: green;
+}
+.color >li.active{
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.95);
+  transform:scale(1.2)
+}
+.width{
+  position: fixed;
+  top:20px;
+  right:50px;
+  
+}
+.width>.thin{
+  height:0px;
+  width:30px;
+  border-top: 2px solid black;
+  padding: 5px;
+
+}
+.width>.thick{
+  height:0px;
+  width:30px;
+  border-top: 5px solid black;
+  padding: 5px;
+ 
+}
