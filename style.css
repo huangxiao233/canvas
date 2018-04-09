@@ -1,6 +1,9 @@
 #xxx{
     background: white;
     display: block;
+    /* position: fixed;
+    top:0；
+    left：0； */
   }
   
   body{
@@ -83,13 +86,13 @@
   height:0px;
   width:30px;
   border-top: 2px solid black;
-  padding: 5px;
+  padding: 10px;
 
 }
 .width>.thick{
   height:0px;
   width:30px;
   border-top: 5px solid black;
-  padding: 5px;
+  padding: 10px;
  
 }
