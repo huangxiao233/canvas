@@ -20,6 +20,7 @@
     top: 0;
     left: 0;
     padding:20px;
+    color:red;
   }
   /* .actions > #brush{
     display: none;
@@ -42,9 +43,13 @@
    height:1.5em;
    transition:all 0.3s;
    margin: 0 10px;
+  
  }
  .actions svg.active{
-   fill:red;
+   /* 想要Color属性有用，必须有上面的FILL:CURRENTCOLOR */
+    /* color:red; */
+   /* fill:blue;
+   stroke:yellow; */
    /* 点击的时候会变大 */
    transform:scale(1.2)
  }
